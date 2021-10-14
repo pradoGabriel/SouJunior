@@ -93,6 +93,7 @@ namespace SouJunior
             // Configurando injeção de dependencias 
             services.AddScoped<IBaseRepository<UsuarioEntity>, BaseRepository<UsuarioEntity>>();
             services.AddScoped<IBaseService<UsuarioEntity>, BaseService<UsuarioEntity>>();
+            services.AddScoped<IRamoAtuacaoRepository, RamoAtuacaoRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IAuthService, AuthService>();
         }

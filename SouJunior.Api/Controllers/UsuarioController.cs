@@ -13,7 +13,7 @@ namespace SouJunior.Api.Controllers
     [Produces("application/json")]
     public class UsuarioController : ControllerBase
     {
-        private IBaseService<UsuarioEntity> _usuarioService;
+        private readonly IBaseService<UsuarioEntity> _usuarioService;
 
         public UsuarioController(IBaseService<UsuarioEntity> usuarioService)
         {

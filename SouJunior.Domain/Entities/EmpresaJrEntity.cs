@@ -9,6 +9,7 @@ namespace SouJunior.Domain.Entities
         public DateTime DataCriacao { get; set; }
         public string RazaoSocial { get; set; }
         public string NomeFantasia { get; set; }
+        public int RamoAtuacaoId { get; set; }
         public RamoAtuacaoEntity RamoAtuacao { get; set; }
     }
 }
