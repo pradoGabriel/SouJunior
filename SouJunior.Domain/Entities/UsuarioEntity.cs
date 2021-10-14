@@ -14,6 +14,7 @@ namespace SouJunior.Domain.Entities
         public EmpresaJrEntity EmpresaJr { get; set; }
         public EmpreendedorEntity Empreendedor { get; set; }
         public EstudanteEntity Estudante { get; set; }
+
         [NotMapped]
         public Dictionary<string, string> Claims { get; set; }
     }
