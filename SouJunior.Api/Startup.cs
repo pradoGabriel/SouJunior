@@ -35,6 +35,17 @@ namespace SouJunior
                 options => options.UseSqlServer(sqlConnectionString)
             );
 
+            // Add CORS policy
+            services.AddCors(options =>
+            {
+                options.AddPolicy("foo",
+                builder =>
+                {
+                    // Not a permanent solution, but just trying to isolate the problem
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+
             services.AddControllers();
 
             //services.AddAuthentication(a =>
@@ -109,6 +120,8 @@ namespace SouJunior
             });
 
             app.UseRouting();
+            // Use the CORS policy
+            app.UseCors("foo"); // second
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
