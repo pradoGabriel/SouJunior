@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace SouJunior.Api.RequestExamples
 {
-    public class GetAllRamoAtuacaoExample : IExamplesProvider<IList<RamoAtuacaoEntity>>
+    public class GetAllRamoAtuacaoExample : IExamplesProvider<List<RamoAtuacaoEntity>>
     {
-        public IList<RamoAtuacaoEntity> GetExamples()
+        public List<RamoAtuacaoEntity> GetExamples()
         {
             var list = new List<RamoAtuacaoEntity>();
 

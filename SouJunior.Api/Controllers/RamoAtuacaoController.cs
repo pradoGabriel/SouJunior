@@ -27,7 +27,7 @@ namespace SouJunior.Api.Controllers
         /// Método responsável por obter lista de ramos de atuação
         /// </summary>
         /// <returns>Retorna código 200 em caso de sucesso</returns>
-        [SwaggerResponseExample(200, typeof(GetAllRamoAtuacaoExample))]
+        [ProducesResponseType(typeof(GetAllRamoAtuacaoExample), 200)]
         [Produces("application/json")]
         [Consumes("application/json")]
         [HttpGet("GetAll")]
