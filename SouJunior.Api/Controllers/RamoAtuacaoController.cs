@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SouJunior.Api.RequestExamples;
-using SouJunior.Domain.Entities;
-using SouJunior.Domain.Interfaces;
-using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using SouJunior.Infra.Interfaces;
 using System.Threading.Tasks;
 
 namespace SouJunior.Api.Controllers
@@ -31,6 +27,7 @@ namespace SouJunior.Api.Controllers
         [Produces("application/json")]
         [Consumes("application/json")]
         [HttpGet("GetAll")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllAsync()
         {
             return Ok(await _ramoAtuacaoRepo.GetAll());

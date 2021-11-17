@@ -3,7 +3,7 @@ using SouJunior.Domain.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace SouJunior.Domain.Interfaces
+namespace SouJunior.Infra.Interfaces
 {
     public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     {

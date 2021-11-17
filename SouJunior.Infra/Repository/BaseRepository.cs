@@ -1,6 +1,6 @@
 ﻿using SouJunior.Domain.Entities;
-using SouJunior.Domain.Interfaces;
 using SouJunior.Infra.Data.Context;
+using SouJunior.Infra.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

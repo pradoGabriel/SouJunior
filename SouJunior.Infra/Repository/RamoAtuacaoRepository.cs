@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SouJunior.Domain.Entities;
-using SouJunior.Domain.Interfaces;
 using SouJunior.Infra.Data.Context;
+using SouJunior.Infra.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

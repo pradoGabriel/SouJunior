@@ -1,4 +1,4 @@
-﻿namespace SouJunior.Service.Dtos
+﻿namespace SouJunior.Infra.Dtos
 {
     public class LoginDto
     {

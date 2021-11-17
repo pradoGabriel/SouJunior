@@ -1,34 +1,32 @@
-﻿using SouJunior.Domain.Entities;
-using SouJunior.Domain.Interfaces;
-using SouJunior.Service.Dtos;
-using SouJunior.Service.Interfaces;
-using System.Threading.Tasks;
+﻿using Microsoft.IdentityModel.Tokens;
+using SouJunior.Domain.Entities;
+using SouJunior.Infra.Helpers;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace SouJunior.Service.Services
 {
-    public class AuthService : IAuthService
+    public static class AuthService
     {
-        private readonly IUsuarioRepository _usuarioRepository;
 
-        public AuthService(IUsuarioRepository usuarioRepository)
+        public static string GenerateToken(UsuarioEntity user)
         {
-            _usuarioRepository = usuarioRepository;
-        }
-
-        public async Task<UsuarioEntity> AuthenticateUser(LoginDto login)
-        {
-            login.Email = login.Email.Trim().ToLower();
-            var usuario = await _usuarioRepository.FindUsuario(login.Email);
-            if (usuario == null)
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(AuthenticationHelper.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                return null;
-            }
-
-            if (BCrypt.Net.BCrypt.Verify(login.Senha, usuario.Senha))
-            {
-                return usuario;
-            } 
-            return null;
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Nome.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email.ToString()),
+                }),
+                Expires = DateTime.UtcNow.AddHours(24),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

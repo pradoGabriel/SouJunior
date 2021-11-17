@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SouJunior.Domain\SouJunior.Domain.csproj" />
+    <ProjectReference Include="..\SouJunior.Infra\SouJunior.Infra.csproj" />
   </ItemGroup>
 
 </Project>

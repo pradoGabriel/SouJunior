@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SouJunior.Domain.Entities;
-using SouJunior.Domain.Interfaces;
 using SouJunior.Infra.Data.Context;
+using SouJunior.Infra.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace SouJunior.Infra.Repository
@@ -15,9 +16,24 @@ namespace SouJunior.Infra.Repository
             _context = myContext;
         }
 
-        public async Task<UsuarioEntity> FindUsuario(string email)
+        public async Task<UsuarioEntity> FindUsuario(string email, string senha)
         {
-            return await _context.Usuario.FirstOrDefaultAsync(_ => _.Email == email);
+            return await _context.Usuario
+                .Include(_ => _.Empreendedor).ThenInclude(e => e.RamoAtuacao)
+                .Include(_ => _.EmpresaJr).ThenInclude(ej => ej.RamoAtuacao)
+                .Include(_ => _.Estudante)
+                .Include(_ => _.Endereco)
+                .FirstOrDefaultAsync(_ => _.Email.ToLower() == email.ToLower() && _.Senha == senha);
+        }
+
+        public async Task<UsuarioEntity> GetById(Guid id)
+        {
+            return await _context.Usuario
+                .Include(_ => _.Empreendedor).ThenInclude(e => e.RamoAtuacao)
+                .Include(_ => _.EmpresaJr).ThenInclude(ej => ej.RamoAtuacao)
+                .Include(_ => _.Estudante)
+                .Include(_ => _.Endereco)
+                .FirstOrDefaultAsync(_ => _.Id == id);
         }
     }
 }

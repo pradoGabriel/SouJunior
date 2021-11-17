@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SouJunior.Domain.Interfaces
+namespace SouJunior.Infra.Interfaces
 {
     public interface IRamoAtuacaoRepository
     {

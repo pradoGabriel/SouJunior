@@ -1,20 +1,23 @@
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SouJunior.Domain.Entities;
-using SouJunior.Domain.Interfaces;
 using SouJunior.Infra.Data.Context;
+using SouJunior.Infra.Helpers;
+using SouJunior.Infra.Interfaces;
 using SouJunior.Infra.Repository;
-using SouJunior.Service.Interfaces;
 using SouJunior.Service.Services;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace SouJunior
 {
@@ -45,26 +48,30 @@ namespace SouJunior
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
             });
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddControllers();
-
-            //services.AddAuthentication(a =>
-            //{
-            //    a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //})
-            //.AddJwtBearer(j =>
-            //{
-            //    j.RequireHttpsMetadata = false;
-            //    j.SaveToken = true;
-            //    j.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuerSigningKey = true,
-            //        IssuerSigningKey = new SymmetricSecurityKey(AuthenticationHelper.GetKeyBytes()),
-            //        ValidateIssuer = false,
-            //        ValidateAudience = false
-            //    };
-            //});
+            var key = Encoding.ASCII.GetBytes(AuthenticationHelper.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
 
@@ -85,17 +92,51 @@ namespace SouJunior
                     });
                 c.ExampleFilters();
 
+                // Autentica��o JWT
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Scheme = "bearer",
+                    Description = "Insert a valid JWT token"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
+
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
 
-            // Configurando inje��o de dependencias 
+            // Configurando injeção de dependencias 
+            //Repositórios
             services.AddScoped<IBaseRepository<UsuarioEntity>, BaseRepository<UsuarioEntity>>();
-            services.AddScoped<IBaseService<UsuarioEntity>, BaseService<UsuarioEntity>>();
+            services.AddScoped<IBaseRepository<PropostaEntity>, BaseRepository<PropostaEntity>>();
             services.AddScoped<IRamoAtuacaoRepository, RamoAtuacaoRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IEmpresaJrRepository, EmpresaJrRepository>();
+            services.AddScoped<IPropostaRepository, PropostaRepository>();
+            services.AddScoped<IEmpreendedorRepository, EmpreendedorRepository>();
+
+            // Services
+            services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IBaseService<UsuarioEntity>, BaseService<UsuarioEntity>>();
+            services.AddScoped<IBaseService<PropostaEntity>, BaseService<PropostaEntity>>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -123,6 +164,7 @@ namespace SouJunior
             app.UseRouting();
             // Use the CORS policy
             app.UseCors("foo"); // second
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
