@@ -2,6 +2,7 @@
 using SouJunior.Domain.Entities;
 using SouJunior.Infra.Data.Context;
 using SouJunior.Infra.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,6 +20,11 @@ namespace SouJunior.Infra.Repository
         public async Task<IList<RamoAtuacaoEntity>> GetAll()
         {
             return await _context.RamoAtuacao.ToListAsync();
+        }
+
+        public async Task<RamoAtuacaoEntity> GetById(int id)
+        {
+            return await _context.RamoAtuacao.FirstOrDefaultAsync(_ => _.Id == id);
         }
     }
 }

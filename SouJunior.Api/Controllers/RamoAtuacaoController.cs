@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SouJunior.Api.RequestExamples;
+using SouJunior.Domain.Entities;
 using SouJunior.Infra.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace SouJunior.Api.Controllers
@@ -31,6 +33,20 @@ namespace SouJunior.Api.Controllers
         public async Task<IActionResult> GetAllAsync()
         {
             return Ok(await _ramoAtuacaoRepo.GetAll());
+        }
+
+        /// <summary>
+        /// Método responsável por obter um ramo de atuação
+        /// </summary>
+        /// <returns>Retorna código 200 em caso de sucesso</returns>
+        [ProducesResponseType(typeof(GetAllRamoAtuacaoExample), 200)]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [HttpGet("{id}/")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetById(int id)
+        {
+            return Ok(await _ramoAtuacaoRepo.GetById(id));
         }
     }
 }

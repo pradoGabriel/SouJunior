@@ -7,5 +7,6 @@ namespace SouJunior.Infra.Interfaces
     public interface IRamoAtuacaoRepository
     {
         Task<IList<RamoAtuacaoEntity>> GetAll();
+        Task<RamoAtuacaoEntity> GetById(int id);
     }
 }
