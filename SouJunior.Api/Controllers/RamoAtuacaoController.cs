@@ -30,6 +30,7 @@ namespace SouJunior.Api.Controllers
         [Consumes("application/json")]
         [HttpGet("GetAll")]
         [AllowAnonymous]
+        //[Authorize]
         public async Task<IActionResult> GetAllAsync()
         {
             return Ok(await _ramoAtuacaoRepo.GetAll());
@@ -44,6 +45,7 @@ namespace SouJunior.Api.Controllers
         [Consumes("application/json")]
         [HttpGet("{id}/")]
         [AllowAnonymous]
+        //[Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(await _ramoAtuacaoRepo.GetById(id));
