@@ -26,6 +26,8 @@ namespace SouJunior.Infra.Repository
             {
                 Id = result.Empreendedor.Id,
                 NomeFantasia = result.Empreendedor.NomeFantasia,
+                Email = result.Email,
+                Telefone = result.Telefone,
                 RamoAtuacao = result.Empreendedor.RamoAtuacao.Descricao,
                 RazaoSocial = result.Empreendedor.RazaoSocial,
                 Cnpj = result.Empreendedor.Cnpj,

@@ -41,6 +41,25 @@ namespace SouJunior.Api.Controllers
             return Ok(_baseService.Add<PropostaCreateValidator>(proposta).Id);
         }
 
+
+        /// <summary>
+        /// Método responsável pela edição de proposta
+        /// </summary>
+        /// <returns>Retorna código 200 em caso de sucesso</returns>
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [HttpPut("{id}/")]
+        [AllowAnonymous]
+        //[Authorize]
+        public IActionResult Update(Guid id, [FromBody] PropostaEntity proposta)
+        {
+            if (proposta == null || id == null)
+                return BadRequest();
+
+            proposta.Id = id;
+            return Ok(_baseService.Update<PropostaCreateValidator>(proposta).Id);
+        }
+
         /// <summary>
         /// Método responsável pela exclusão de proposta
         /// </summary>
@@ -84,5 +103,24 @@ namespace SouJunior.Api.Controllers
                 result.PageIndex
             });
         }
+
+
+        /// <summary>
+        /// Método responsável por obter uma proposta detalhada
+        /// </summary>
+        /// <returns>Retorna código 200 em caso de sucesso</returns>
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [HttpGet("{id}/")]
+        [AllowAnonymous]
+        //[Authorize]
+        public async Task<IActionResult> GetByIdAsync(Guid id)
+        {
+            if (id == null)
+                return BadRequest();
+
+            return Ok(await _repository.GetById(id));
+        }
     }
+
 }

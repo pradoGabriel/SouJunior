@@ -40,6 +40,8 @@ namespace SouJunior.Infra.Repository
             {
                 Id = _.EmpresaJr.Id,
                 NomeFantasia = _.EmpresaJr.NomeFantasia,
+                Email = _.Email,
+                Telefone = _.Telefone,
                 RamoAtuacao = _.EmpresaJr.RamoAtuacao.Descricao,
                 RazaoSocial = _.EmpresaJr.RazaoSocial,
                 Cnpj = _.EmpresaJr.Cnpj,
@@ -68,6 +70,8 @@ namespace SouJunior.Infra.Repository
             {
                 Id = result.EmpresaJr.Id,
                 NomeFantasia = result.EmpresaJr.NomeFantasia,
+                Email = result.Email,
+                Telefone = result.Telefone,
                 RamoAtuacao = result.EmpresaJr.RamoAtuacao.Descricao,
                 RazaoSocial = result.EmpresaJr.RazaoSocial,
                 Cnpj = result.EmpresaJr.Cnpj,

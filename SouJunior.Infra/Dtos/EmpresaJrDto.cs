@@ -7,6 +7,8 @@ namespace SouJunior.Infra.Dtos
     {
         public Guid Id { get; set; }
         public string ImagemPerfil { get; set; }
+        public string Email { get; set; }
+        public string Telefone { get; set; }
         public string Cnpj { get; set; }
         public string Descricao { get; set; }
         public DateTime DataCriacao { get; set; }
