@@ -40,24 +40,26 @@ namespace SouJunior.Infra.Repository
 
             var result = await PaginationHelper<PropostaEntity>.CreateAsync(query, filter.PageIndex, filter.PageSize);
 
-            var propostas = result.Select(async _ => new PropostaListDto()
-            {
-                Id = _.Id,
-                EmpreendedorId = _.EmpreendedorId,
-                EmpresaJrId = _.EmpresaJrId,
-                Titulo = _.Titulo,
-                IsAceita = _.IsAceita,
-                Descricao = _.Descricao,
-                DataCriacao = _.DataCriacao,
-                NomeFantasiaEmpreendedor = (await _empreendedorRepository.GetById(_.EmpreendedorId)).NomeFantasia,
-                ImagemEmpreendedor = (await _empreendedorRepository.GetById(_.EmpreendedorId)).ImagemPerfil,
-                NomeFantasiaEmpresaJr = (await _empresaJrRepository.GetById(_.EmpresaJrId)).NomeFantasia,
-                ImagemEmpresaJr = (await _empresaJrRepository.GetById(_.EmpresaJrId)).ImagemPerfil
-            }).ToList();
-
             var list = new List<PropostaListDto>();
 
-            propostas.ForEach(x => list.Add(x.Result));
+            foreach(var proposta in result)
+            {
+                list.Add(
+                    new PropostaListDto()
+                    {
+                        Id = proposta.Id,
+                        EmpreendedorId = proposta.EmpreendedorId,
+                        EmpresaJrId = proposta.EmpresaJrId,
+                        Titulo = proposta.Titulo,
+                        IsAceita = proposta.IsAceita,
+                        Descricao = proposta.Descricao,
+                        DataCriacao = proposta.DataCriacao,
+                        NomeFantasiaEmpreendedor = (await _empreendedorRepository.GetById(proposta.EmpreendedorId)).NomeFantasia,
+                        ImagemEmpreendedor = (await _empreendedorRepository.GetById(proposta.EmpreendedorId)).ImagemPerfil,
+                        NomeFantasiaEmpresaJr = (await _empresaJrRepository.GetById(proposta.EmpresaJrId)).NomeFantasia,
+                        ImagemEmpresaJr = (await _empresaJrRepository.GetById(proposta.EmpresaJrId)).ImagemPerfil
+                    });
+            }
 
             return new PaginationDto<PropostaListDto>()
             {
