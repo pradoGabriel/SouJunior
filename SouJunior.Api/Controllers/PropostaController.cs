@@ -100,7 +100,8 @@ namespace SouJunior.Api.Controllers
                 result.TotalPages,
                 result.HasNextPage,
                 result.HasPreviousPage,
-                result.PageIndex
+                result.PageIndex,
+                result.TotalItems
             });
         }
 

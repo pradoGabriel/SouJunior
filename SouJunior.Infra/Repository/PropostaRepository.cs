@@ -6,6 +6,7 @@ using SouJunior.Infra.Dtos;
 using SouJunior.Infra.Helpers;
 using SouJunior.Infra.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace SouJunior.Infra.Repository
             _empresaJrRepository = empresaJr;
         }
 
-        public async Task<PaginationDto<PropostaEntity>> GetByFilter(PropostaFilter filter)
+        public async Task<PaginationDto<PropostaListDto>> GetByFilter(PropostaFilter filter)
         {
             IQueryable<PropostaEntity> query = _context.Proposta.AsQueryable();
 
@@ -39,7 +40,7 @@ namespace SouJunior.Infra.Repository
 
             var result = await PaginationHelper<PropostaEntity>.CreateAsync(query, filter.PageIndex, filter.PageSize);
 
-            var propostas = result.Select(_ => new PropostaEntity()
+            var propostas = result.Select(async _ => new PropostaListDto()
             {
                 Id = _.Id,
                 EmpreendedorId = _.EmpreendedorId,
@@ -48,16 +49,24 @@ namespace SouJunior.Infra.Repository
                 IsAceita = _.IsAceita,
                 Descricao = _.Descricao,
                 DataCriacao = _.DataCriacao,
-
+                NomeFantasiaEmpreendedor = (await _empreendedorRepository.GetById(_.EmpreendedorId)).NomeFantasia,
+                ImagemEmpreendedor = (await _empreendedorRepository.GetById(_.EmpreendedorId)).ImagemPerfil,
+                NomeFantasiaEmpresaJr = (await _empresaJrRepository.GetById(_.EmpresaJrId)).NomeFantasia,
+                ImagemEmpresaJr = (await _empresaJrRepository.GetById(_.EmpresaJrId)).ImagemPerfil
             }).ToList();
 
-            return new PaginationDto<PropostaEntity>()
+            var list = new List<PropostaListDto>();
+
+            propostas.ForEach(x => list.Add(x.Result));
+
+            return new PaginationDto<PropostaListDto>()
             {
-                Dados = propostas,
+                Dados = list,
                 TotalPages = result.TotalPages,
                 PageIndex = result.PageIndex,
                 HasNextPage = result.HasNextPage,
-                HasPreviousPage = result.HasPreviousPage
+                HasPreviousPage = result.HasPreviousPage,
+                TotalItems = result.TotalItems
             };
         }
 

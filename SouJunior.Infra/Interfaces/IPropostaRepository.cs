@@ -8,7 +8,7 @@ namespace SouJunior.Infra.Interfaces
 {
     public interface IPropostaRepository
     {
-        Task<PaginationDto<PropostaEntity>> GetByFilter(PropostaFilter filter);
+        Task<PaginationDto<PropostaListDto>> GetByFilter(PropostaFilter filter);
         Task<PropostaDto> GetById(Guid id);
     }
 }

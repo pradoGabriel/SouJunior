@@ -10,12 +10,13 @@ namespace SouJunior.Infra.Helpers
     {
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
+        public int TotalItems { get; private set; }
 
         public PaginationHelper(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
+            TotalItems = count;
             this.AddRange(items);
         }
 

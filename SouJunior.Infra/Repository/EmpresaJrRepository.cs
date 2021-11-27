@@ -56,7 +56,8 @@ namespace SouJunior.Infra.Repository
                 TotalPages = result.TotalPages, 
                 PageIndex = result.PageIndex,
                 HasNextPage = result.HasNextPage,
-                HasPreviousPage = result.HasPreviousPage
+                HasPreviousPage = result.HasPreviousPage,
+                TotalItems = result.TotalItems
             };
         }
 

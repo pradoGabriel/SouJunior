@@ -9,5 +9,6 @@ namespace SouJunior.Infra.Dtos
         public int TotalPages { get; set; }
         public bool HasPreviousPage { get; set; }
         public bool HasNextPage { get; set; }
+        public int TotalItems { get; set; }
     }
 }
