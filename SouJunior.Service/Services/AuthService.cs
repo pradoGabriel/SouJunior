@@ -22,7 +22,7 @@ namespace SouJunior.Service.Services
             if (user.EmpresaJr != null)
                 role = "empresajr";
             if (user.Estudante != null)
-                role = "estudanre";
+                role = "estudante";
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
