@@ -26,7 +26,6 @@ namespace SouJunior.Api.Controllers
         [Consumes("application/json")]
         [HttpPost("Login")]
         [AllowAnonymous]
-        //[Authorize]
         public async Task<IActionResult> Login([FromBody] LoginDto login)
         {
             if (login == null)

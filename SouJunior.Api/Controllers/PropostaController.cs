@@ -31,8 +31,7 @@ namespace SouJunior.Api.Controllers
         [Produces("application/json")]
         [Consumes("application/json")]
         [HttpPost("Create")]
-        [AllowAnonymous]
-        //[Authorize]
+        [Authorize]
         public IActionResult Create([FromBody] PropostaEntity proposta)
         {
             if (proposta == null)
@@ -49,8 +48,7 @@ namespace SouJunior.Api.Controllers
         [Produces("application/json")]
         [Consumes("application/json")]
         [HttpPut("{id}/")]
-        [AllowAnonymous]
-        //[Authorize]
+        [Authorize]
         public IActionResult Update(Guid id, [FromBody] PropostaEntity proposta)
         {
             if (proposta == null || id == null)
@@ -67,8 +65,7 @@ namespace SouJunior.Api.Controllers
         [Produces("application/json")]
         [Consumes("application/json")]
         [HttpDelete("{id}/")]
-        [AllowAnonymous]
-        //[Authorize]
+        [Authorize]
         public IActionResult Delete(Guid id)
         {
             if (id == null)
@@ -85,8 +82,7 @@ namespace SouJunior.Api.Controllers
         [Produces("application/json")]
         [Consumes("application/json")]
         [HttpGet("GetByFilter")]
-        [AllowAnonymous]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetByFilter([FromQuery] PropostaFilter filter)
         {
             if (filter == null)
@@ -113,8 +109,7 @@ namespace SouJunior.Api.Controllers
         [Produces("application/json")]
         [Consumes("application/json")]
         [HttpGet("{id}/")]
-        [AllowAnonymous]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
             if (id == null)
