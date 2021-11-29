@@ -35,7 +35,7 @@ namespace SouJunior
         {
             var sqlConnectionString = Configuration.GetSection("SqlConnectionString").Get<string>() ?? "";
             services.AddDbContext<MyContext>(
-                options => options.UseSqlServer("Server=tcp:soujuniorbeta.database.windows.net,1433;Initial Catalog=soujuniorbeta;Persist Security Info=False;User ID=soujuniorbeta;Password=senhaforte@2021;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;")
+                options => options.UseSqlServer(sqlConnectionString)
             );
 
             // Add CORS policy
