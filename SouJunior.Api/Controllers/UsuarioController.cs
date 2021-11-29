@@ -51,12 +51,24 @@ namespace SouJunior.Api.Controllers
         [Consumes("application/json")]
         [HttpPut("{id}/")]
         [Authorize]
-        public IActionResult Update(Guid id, [FromBody] UsuarioEntity usuario)
+        public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UsuarioEntity usuario)
         {
             if (usuario == null || id == null)
                 return BadRequest();
 
+            var oldUser = await _usuarioService.GetById(id);
+
+
+            if (oldUser.Empreendedor != null)
+                usuario.Empreendedor.Id = oldUser.Empreendedor.Id;
+            if (oldUser.EmpresaJr != null)
+                usuario.EmpresaJr.Id = oldUser.EmpresaJr.Id;
+            if (oldUser.Estudante != null)
+                usuario.Estudante.Id = oldUser.Estudante.Id;
+
+
             usuario.Id = id;
+            usuario.Endereco.Id = oldUser.Endereco.Id;
             return Ok(_baseService.Update<UsuarioCreateValidator>(usuario).Id);
         }
 
