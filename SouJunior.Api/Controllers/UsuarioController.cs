@@ -18,11 +18,13 @@ namespace SouJunior.Api.Controllers
     {
         private readonly IBaseService<UsuarioEntity> _baseService;
         private readonly IUsuarioService _usuarioService;
+        private readonly IUsuarioRepository _usuarioRepository;
 
-        public UsuarioController(IBaseService<UsuarioEntity> baseService, IUsuarioService usuarioService)
+        public UsuarioController(IBaseService<UsuarioEntity> baseService, IUsuarioService usuarioService, IUsuarioRepository usuarioRepository)
         {
             _baseService = baseService;
             _usuarioService = usuarioService;
+            _usuarioRepository = usuarioRepository;
         }
 
         /// <summary>
@@ -56,20 +58,8 @@ namespace SouJunior.Api.Controllers
             if (usuario == null || id == null)
                 return BadRequest();
 
-            var oldUser = await _usuarioService.GetById(id);
-
-
-            if (oldUser.Empreendedor != null)
-                usuario.Empreendedor.Id = oldUser.Empreendedor.Id;
-            if (oldUser.EmpresaJr != null)
-                usuario.EmpresaJr.Id = oldUser.EmpresaJr.Id;
-            if (oldUser.Estudante != null)
-                usuario.Estudante.Id = oldUser.Estudante.Id;
-
-
             usuario.Id = id;
-            usuario.Endereco.Id = oldUser.Endereco.Id;
-            return Ok(_baseService.Update<UsuarioCreateValidator>(usuario).Id);
+            return Ok(await _usuarioRepository.Update(usuario));
         }
 
         /// <summary>

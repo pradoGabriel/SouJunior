@@ -8,5 +8,6 @@ namespace SouJunior.Infra.Interfaces
     {
         Task<UsuarioEntity> FindUsuario(string email, string senha);
         Task<UsuarioEntity> GetById(Guid id);
+        Task<Guid> Update(UsuarioEntity user);
     }
 }
