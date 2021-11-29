@@ -24,8 +24,7 @@ namespace SouJunior.Api.Controllers
         [Produces("application/json")]
         [Consumes("application/json")]
         [HttpGet("{id}/")]
-        [AllowAnonymous]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
             if (id == null)
