@@ -44,6 +44,8 @@ namespace SouJunior.Infra.Repository
 
             foreach(var proposta in result)
             {
+                var empreendedor = await _empreendedorRepository.GetById(proposta.EmpreendedorId);
+                var empresaJr = await _empresaJrRepository.GetById(proposta.EmpresaJrId);
                 list.Add(
                     new PropostaListDto()
                     {
@@ -54,10 +56,14 @@ namespace SouJunior.Infra.Repository
                         IsAceita = proposta.IsAceita,
                         Descricao = proposta.Descricao,
                         DataCriacao = proposta.DataCriacao,
-                        NomeFantasiaEmpreendedor = (await _empreendedorRepository.GetById(proposta.EmpreendedorId)).NomeFantasia,
-                        ImagemEmpreendedor = (await _empreendedorRepository.GetById(proposta.EmpreendedorId)).ImagemPerfil,
-                        NomeFantasiaEmpresaJr = (await _empresaJrRepository.GetById(proposta.EmpresaJrId)).NomeFantasia,
-                        ImagemEmpresaJr = (await _empresaJrRepository.GetById(proposta.EmpresaJrId)).ImagemPerfil
+                        NomeFantasiaEmpreendedor = empreendedor.NomeFantasia,
+                        ImagemEmpreendedor = empreendedor.ImagemPerfil,
+                        EmailEmpreendedor = empreendedor.Email,
+                        TelefoneEmpreendedor = empreendedor.Telefone,
+                        NomeFantasiaEmpresaJr = empresaJr.NomeFantasia,
+                        ImagemEmpresaJr = empresaJr.ImagemPerfil,
+                        EmailEmpresaJr = empresaJr.Email,
+                        TelefoneEmpresaJr = empresaJr.Telefone
                     });
             }
 

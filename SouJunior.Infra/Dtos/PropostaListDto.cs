@@ -13,7 +13,11 @@ namespace SouJunior.Infra.Dtos
         public Guid EmpreendedorId { get; set; }
         public string NomeFantasiaEmpreendedor { get; set; }
         public string ImagemEmpreendedor { get; set; }
+        public string EmailEmpreendedor { get; set; }
+        public string TelefoneEmpreendedor { get; set; }
         public string NomeFantasiaEmpresaJr { get; set; }
         public string ImagemEmpresaJr { get; set; }
+        public string EmailEmpresaJr { get; set; }
+        public string TelefoneEmpresaJr { get; set; }
     }
 }
