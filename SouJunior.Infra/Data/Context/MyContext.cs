@@ -15,5 +15,6 @@ namespace SouJunior.Infra.Data.Context
         public DbSet<PropostaEntity> Proposta { get; set; }
         public DbSet<RamoAtuacaoEntity> RamoAtuacao { get; set; }
         public DbSet<UsuarioEntity> Usuario { get; set; }
+        public DbSet<PostagemEntity> Postagem { get; set; }
     }
 }

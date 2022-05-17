@@ -10,5 +10,6 @@ namespace SouJunior.Domain.Entities
         public bool? IsAceita { get; set; }
         public Guid EmpresaJrId { get; set; }
         public Guid EmpreendedorId { get; set; }
+        public Guid EstudanteId { get; set; }
     }
 }

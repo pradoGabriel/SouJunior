@@ -17,12 +17,21 @@ namespace SouJunior.Infra.Repository
         protected readonly MyContext _context;
         protected readonly IEmpresaJrRepository _empresaJrRepository;
         protected readonly IEmpreendedorRepository _empreendedorRepository;
+        protected readonly IEstudanteRepository _estudanteRepository;
+        protected readonly IPostagemRepository _postagemRepository;
 
-        public PropostaRepository(MyContext myContext, IEmpresaJrRepository empresaJr, IEmpreendedorRepository empreendedorRepository)
+        public PropostaRepository(
+            MyContext myContext,
+            IEmpresaJrRepository empresaJr,
+            IEmpreendedorRepository empreendedorRepository,
+            IEstudanteRepository estudanteRepository,
+            IPostagemRepository postagemRepository)
         {
             _context = myContext;
             _empreendedorRepository = empreendedorRepository;
             _empresaJrRepository = empresaJr;
+            _estudanteRepository = estudanteRepository;
+            _postagemRepository = postagemRepository;
         }
 
         public async Task<PaginationDto<PropostaListDto>> GetByFilter(PropostaFilter filter)
@@ -35,6 +44,9 @@ namespace SouJunior.Infra.Repository
             if (filter.EmpresaJrId != null)
                 query = query.Where(_ => _.EmpresaJrId == filter.EmpresaJrId);
 
+            if (filter.EstudanteId != null)
+                query = query.Where(_ => _.EmpresaJrId == filter.EmpresaJrId);
+
             if (filter.IsAceita != null)
                 query = query.Where(_ => _.IsAceita == filter.IsAceita);
 
@@ -44,27 +56,46 @@ namespace SouJunior.Infra.Repository
 
             foreach(var proposta in result)
             {
-                var empreendedor = await _empreendedorRepository.GetById(proposta.EmpreendedorId);
-                var empresaJr = await _empresaJrRepository.GetById(proposta.EmpresaJrId);
-                list.Add(
-                    new PropostaListDto()
-                    {
-                        Id = proposta.Id,
-                        EmpreendedorId = proposta.EmpreendedorId,
-                        EmpresaJrId = proposta.EmpresaJrId,
-                        Titulo = proposta.Titulo,
-                        IsAceita = proposta.IsAceita,
-                        Descricao = proposta.Descricao,
-                        DataCriacao = proposta.DataCriacao,
-                        NomeFantasiaEmpreendedor = empreendedor.NomeFantasia,
-                        ImagemEmpreendedor = empreendedor.ImagemPerfil,
-                        EmailEmpreendedor = empreendedor.Email,
-                        TelefoneEmpreendedor = empreendedor.Telefone,
-                        NomeFantasiaEmpresaJr = empresaJr.NomeFantasia,
-                        ImagemEmpresaJr = empresaJr.ImagemPerfil,
-                        EmailEmpresaJr = empresaJr.Email,
-                        TelefoneEmpresaJr = empresaJr.Telefone
-                    });
+                var item = new PropostaListDto()
+                {
+                    Id = proposta.Id,
+                    EmpreendedorId = proposta.EmpreendedorId,
+                    EmpresaJrId = proposta.EmpresaJrId,
+                    Titulo = proposta.Titulo,
+                    IsAceita = proposta.IsAceita,
+                    Descricao = proposta.Descricao,
+                    DataCriacao = proposta.DataCriacao
+                };
+
+                if (filter.EmpreendedorId != null)
+                {
+                    var empreendedor = await _empreendedorRepository.GetById(proposta.EmpreendedorId);
+                    item.NomeFantasiaEmpreendedor = empreendedor.NomeFantasia;
+                    item.ImagemEmpreendedor = empreendedor.ImagemPerfil;
+                    item.EmailEmpreendedor = empreendedor.Email;
+                    item.TelefoneEmpreendedor = empreendedor.Telefone;
+                }
+
+                if (filter.EmpresaJrId != null)
+                {
+                    var empresaJr = await _empresaJrRepository.GetById(proposta.EmpresaJrId);
+                    item.NomeFantasiaEmpresaJr = empresaJr.NomeFantasia;
+                    item.ImagemEmpresaJr = empresaJr.ImagemPerfil;
+                    item.EmailEmpresaJr = empresaJr.Email;
+                    item.TelefoneEmpresaJr = empresaJr.Telefone;
+                }
+
+                if (filter.EstudanteId != null)
+                {
+                    var estudante = await _estudanteRepository.GetById(proposta.EstudanteId);
+                    item.NomeFantasiaEmpresaJr = estudante.Nome;
+                    item.ImagemEmpresaJr = estudante.ImagemPerfil;
+                    item.EmailEmpresaJr = estudante.Email;
+                    item.TelefoneEmpresaJr = estudante.Telefone;
+                }
+
+
+                list.Add(item);
             }
 
             return new PaginationDto<PropostaListDto>()
@@ -82,6 +113,19 @@ namespace SouJunior.Infra.Repository
         {
             var result = await _context.Proposta.FirstOrDefaultAsync(_ => _.Id == id);
 
+            var estudante = new EstudanteDto();
+            var empreendedor = new EmpreendedorDto();
+            var empresaJr = new EmpresaJrDto();
+
+            if (result.EmpreendedorId != null)
+                empreendedor = await _empreendedorRepository.GetById(result.EmpreendedorId);
+
+            if (result.EmpresaJrId != null)
+                empresaJr = await _empresaJrRepository.GetById(result.EmpresaJrId);
+
+            if (result.EstudanteId != null)
+                estudante = await _estudanteRepository.GetById(result.EstudanteId);
+
             return new PropostaDto()
             {
                 Id = result.Id,
@@ -89,8 +133,10 @@ namespace SouJunior.Infra.Repository
                 Titulo = result.Titulo,
                 Descricao = result.Descricao,
                 DataCriacao = result.DataCriacao,
-                Empreendedor = await _empreendedorRepository.GetById(result.EmpreendedorId),
-                EmpresaJr = await _empresaJrRepository.GetById(result.EmpresaJrId)
+                Empreendedor = empreendedor,
+                EmpresaJr = empresaJr,
+                Estudante = estudante,
+                Postagens = _postagemRepository.FilterByProposta(id)
             };
         }
     }
