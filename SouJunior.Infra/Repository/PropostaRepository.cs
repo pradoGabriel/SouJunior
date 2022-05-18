@@ -67,7 +67,7 @@ namespace SouJunior.Infra.Repository
                     DataCriacao = proposta.DataCriacao
                 };
 
-                if (proposta.EmpreendedorId != null)
+                if (proposta.EmpreendedorId != null && proposta.EmpreendedorId != new Guid())
                 {
                     var empreendedor = await _empreendedorRepository.GetById(proposta.EmpreendedorId);
                     item.NomeFantasiaEmpreendedor = empreendedor.NomeFantasia;
@@ -76,7 +76,7 @@ namespace SouJunior.Infra.Repository
                     item.TelefoneEmpreendedor = empreendedor.Telefone;
                 }
 
-                if (proposta.EmpresaJrId != null)
+                if (proposta.EmpresaJrId != null && proposta.EmpresaJrId != new Guid())
                 {
                     var empresaJr = await _empresaJrRepository.GetById(proposta.EmpresaJrId);
                     item.NomeFantasiaEmpresaJr = empresaJr.NomeFantasia;
@@ -85,7 +85,7 @@ namespace SouJunior.Infra.Repository
                     item.TelefoneEmpresaJr = empresaJr.Telefone;
                 }
 
-                if (proposta.EstudanteId != null)
+                if (proposta.EstudanteId != null && proposta.EstudanteId != new Guid())
                 {
                     var estudante = await _estudanteRepository.GetById(proposta.EstudanteId);
                     item.NomeFantasiaEmpresaJr = estudante.Nome;
@@ -117,13 +117,13 @@ namespace SouJunior.Infra.Repository
             var empreendedor = new EmpreendedorDto();
             var empresaJr = new EmpresaJrDto();
 
-            if (result.EmpreendedorId != null)
+            if (result.EmpreendedorId != null && result.EmpreendedorId != new Guid())
                 empreendedor = await _empreendedorRepository.GetById(result.EmpreendedorId);
 
-            if (result.EmpresaJrId != null)
+            if (result.EmpresaJrId != null && result.EmpresaJrId != new Guid())
                 empresaJr = await _empresaJrRepository.GetById(result.EmpresaJrId);
 
-            if (result.EstudanteId != null)
+            if (result.EstudanteId != null && result.EstudanteId != new Guid())
                 estudante = await _estudanteRepository.GetById(result.EstudanteId);
 
             return new PropostaDto()
