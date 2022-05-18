@@ -37,6 +37,7 @@ namespace SouJunior.Api.Controllers
             if (postagem == null)
                 return BadRequest();
 
+            postagem.DataHora = DateTime.UtcNow;
             return Ok(_baseService.Add<PostagemCreateValidator>(postagem).Id);
         }
     }

@@ -67,7 +67,7 @@ namespace SouJunior.Infra.Repository
                     DataCriacao = proposta.DataCriacao
                 };
 
-                if (filter.EmpreendedorId != null)
+                if (proposta.EmpreendedorId != null)
                 {
                     var empreendedor = await _empreendedorRepository.GetById(proposta.EmpreendedorId);
                     item.NomeFantasiaEmpreendedor = empreendedor.NomeFantasia;
@@ -76,7 +76,7 @@ namespace SouJunior.Infra.Repository
                     item.TelefoneEmpreendedor = empreendedor.Telefone;
                 }
 
-                if (filter.EmpresaJrId != null)
+                if (proposta.EmpresaJrId != null)
                 {
                     var empresaJr = await _empresaJrRepository.GetById(proposta.EmpresaJrId);
                     item.NomeFantasiaEmpresaJr = empresaJr.NomeFantasia;
@@ -85,7 +85,7 @@ namespace SouJunior.Infra.Repository
                     item.TelefoneEmpresaJr = empresaJr.Telefone;
                 }
 
-                if (filter.EstudanteId != null)
+                if (proposta.EstudanteId != null)
                 {
                     var estudante = await _estudanteRepository.GetById(proposta.EstudanteId);
                     item.NomeFantasiaEmpresaJr = estudante.Nome;
