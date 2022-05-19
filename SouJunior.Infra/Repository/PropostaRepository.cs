@@ -88,10 +88,10 @@ namespace SouJunior.Infra.Repository
                 if (proposta.EstudanteId != null && proposta.EstudanteId != new Guid())
                 {
                     var estudante = await _estudanteRepository.GetById(proposta.EstudanteId);
-                    item.NomeFantasiaEmpresaJr = estudante.Nome;
-                    item.ImagemEmpresaJr = estudante.ImagemPerfil;
-                    item.EmailEmpresaJr = estudante.Email;
-                    item.TelefoneEmpresaJr = estudante.Telefone;
+                    item.NomeEstudante = estudante.Nome;
+                    item.ImagemEstudante = estudante.ImagemPerfil;
+                    item.EmailEstudante = estudante.Email;
+                    item.TelefoneEstudante = estudante.Telefone;
                 }
 
 
