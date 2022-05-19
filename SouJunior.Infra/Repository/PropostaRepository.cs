@@ -45,7 +45,7 @@ namespace SouJunior.Infra.Repository
                 query = query.Where(_ => _.EmpresaJrId == filter.EmpresaJrId);
 
             if (filter.EstudanteId != null)
-                query = query.Where(_ => _.EstudanteId == filter.EstudanteId);
+                query = query.Where(_ => _.EmpresaJrId == filter.EmpresaJrId);
 
             if (filter.IsAceita != null)
                 query = query.Where(_ => _.IsAceita == filter.IsAceita);

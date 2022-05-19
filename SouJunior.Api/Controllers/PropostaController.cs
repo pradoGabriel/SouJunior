@@ -81,7 +81,7 @@ namespace SouJunior.Api.Controllers
         /// <returns>Retorna código 200 em caso de sucesso</returns>
         [Produces("application/json")]
         [Consumes("application/json")]
-        //[HttpGet("GetByFilter")]
+        [HttpGet("GetByFilter")]
         [Authorize]
         public async Task<IActionResult> GetByFilter([FromQuery] PropostaFilter filter)
         {
@@ -109,7 +109,7 @@ namespace SouJunior.Api.Controllers
         [Produces("application/json")]
         [Consumes("application/json")]
         [HttpGet("{id}/")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
             if (id == null)
