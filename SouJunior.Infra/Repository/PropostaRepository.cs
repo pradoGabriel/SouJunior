@@ -64,7 +64,8 @@ namespace SouJunior.Infra.Repository
                     Titulo = proposta.Titulo,
                     IsAceita = proposta.IsAceita,
                     Descricao = proposta.Descricao,
-                    DataCriacao = proposta.DataCriacao
+                    DataCriacao = proposta.DataCriacao,
+                    PerfilLinkedin = proposta.PerfilLinkedin
                 };
 
                 if (proposta.EmpreendedorId != null && proposta.EmpreendedorId != new Guid())
@@ -136,7 +137,8 @@ namespace SouJunior.Infra.Repository
                 Empreendedor = empreendedor,
                 EmpresaJr = empresaJr,
                 Estudante = estudante,
-                Postagens = _postagemRepository.FilterByProposta(id)
+                Postagens = _postagemRepository.FilterByProposta(id),
+                PerfilLinkedin = result.PerfilLinkedin
             };
         }
     }

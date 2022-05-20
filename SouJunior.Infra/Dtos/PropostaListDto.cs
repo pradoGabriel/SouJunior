@@ -23,5 +23,6 @@ namespace SouJunior.Infra.Dtos
         public string ImagemEstudante { get; set; }
         public string EmailEstudante { get; set; }
         public string TelefoneEstudante { get; set; }
+        public string PerfilLinkedin { get; set; }
     }
 }

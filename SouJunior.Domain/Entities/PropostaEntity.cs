@@ -11,5 +11,6 @@ namespace SouJunior.Domain.Entities
         public Guid EmpresaJrId { get; set; }
         public Guid EmpreendedorId { get; set; }
         public Guid EstudanteId { get; set; }
+        public string PerfilLinkedin { get; set; }
     }
 }

@@ -16,5 +16,6 @@ namespace SouJunior.Infra.Dtos
         public EmpresaJrDto? EmpresaJr { get; set; }
         public EstudanteDto? Estudante { get; set; }
         public List<PostagemEntity>? Postagens { get; set; }
+        public string PerfilLinkedin { get; set; }
     }
 }
