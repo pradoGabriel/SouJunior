@@ -16,11 +16,20 @@ namespace SouJunior.Service.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(AuthenticationHelper.Secret);
             var role = string.Empty;
+            var nomeFantasia = string.Empty;
 
             if (user.Empreendedor != null)
+            {
                 role = "empreendedor";
+                nomeFantasia = user.Empreendedor.NomeFantasia;
+            }
+                
             if (user.EmpresaJr != null)
+            {
                 role = "empresajr";
+                nomeFantasia = user.EmpresaJr.NomeFantasia;
+            }
+            
             if (user.Estudante != null)
                 role = "estudante";
 
@@ -31,6 +40,7 @@ namespace SouJunior.Service.Services
                     new Claim(ClaimTypes.Name, user.Nome.ToString()),
                     new Claim(ClaimTypes.Email, user.Email.ToString()),
                     new Claim(ClaimTypes.Role, role),
+                    new Claim(ClaimTypes.GivenName, nomeFantasia),
                 }),
                 Expires = DateTime.UtcNow.AddHours(24),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

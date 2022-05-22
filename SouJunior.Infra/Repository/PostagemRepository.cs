@@ -20,7 +20,7 @@ namespace SouJunior.Infra.Repository
 
         public List<PostagemEntity> FilterByProposta(Guid propostaId)
         {
-            return _context.Postagem.Where(_ => _.PropostaId == propostaId).ToList();
+            return _context.Postagem.Where(_ => _.PropostaId == propostaId).OrderByDescending(x => x.DataHora).ToList();
         }
     }
 }
